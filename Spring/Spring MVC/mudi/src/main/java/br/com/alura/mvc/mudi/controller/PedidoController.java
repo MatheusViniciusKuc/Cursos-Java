@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.alura.mvc.mudi.Repository.PedidoRepository;
-import br.com.alura.mvc.mudi.Repository.UserRepository;
 import br.com.alura.mvc.mudi.dto.RequisicaoNovoPedido;
 import br.com.alura.mvc.mudi.model.Pedido;
 import br.com.alura.mvc.mudi.model.StatusPedido;
+import br.com.alura.mvc.mudi.repository.PedidoRepository;
+import br.com.alura.mvc.mudi.repository.UserRepository;
 
 @Controller
 @RequestMapping("pedido")
@@ -35,12 +35,11 @@ public class PedidoController {
         if (resultado.hasErrors()) {
             return "pedido/formulario";
         }
-
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Pedido pedido = requisao.toPedido();
         pedido.setUser(userRepository.findByUsername(username));
         pedido.setStatus(StatusPedido.AGUARDANDO);
         pedidoRepository.save(pedido);
-        return "redirect:/home";
+        return "redirect:/usuario/pedido";
     }
 }

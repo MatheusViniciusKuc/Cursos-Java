@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.alura.mvc.mudi.Repository.PedidoRepository;
 import br.com.alura.mvc.mudi.model.Pedido;
 import br.com.alura.mvc.mudi.model.StatusPedido;
+import br.com.alura.mvc.mudi.repository.PedidoRepository;
 
 @Controller
 @RequestMapping("usuario")
@@ -31,7 +31,7 @@ public class UsuarioController {
 
     @GetMapping("pedido/{status}")
     public String porStatus(@PathVariable("status") String status, Model model, Principal principal) {
-        List<Pedido> pedidos = pedidoRepository.findByStatusAndUser(StatusPedido.valueOf(status.toUpperCase()),
+        List<Pedido> pedidos = pedidoRepository.findByStatusEUsuario(StatusPedido.valueOf(status.toUpperCase()),
                 principal.getName());
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("status", status);

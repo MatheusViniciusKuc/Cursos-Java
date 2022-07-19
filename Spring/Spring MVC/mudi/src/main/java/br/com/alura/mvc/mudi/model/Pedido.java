@@ -26,74 +26,93 @@ public class Pedido {
     private String descricao;
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    public String getNomeProduto() {
-        return nomeProduto;
-    }
-
-    public void setNomeProduto(String nomeProduto) {
+    public Pedido(String nomeProduto, BigDecimal valorNegociado, LocalDate dataDaEntrega, String urlDoProduto,
+            String urlImagem, String descricao, StatusPedido status, User user) {
         this.nomeProduto = nomeProduto;
-    }
-
-    public BigDecimal getValorNegociado() {
-        return valorNegociado;
-    }
-
-    public void setValorNegociado(BigDecimal valorNegociado) {
         this.valorNegociado = valorNegociado;
+        this.dataDaEntrega = dataDaEntrega;
+        this.urlDoProduto = urlDoProduto;
+        this.urlImagem = urlImagem;
+        this.descricao = descricao;
+        this.status = status;
+        this.user = user;
+    }
+
+    public Pedido() {
     }
 
     public LocalDate getDataDaEntrega() {
         return dataDaEntrega;
     }
 
-    public void setDataDaEntrega(LocalDate dataDaEntrega) {
-        this.dataDaEntrega = dataDaEntrega;
-    }
-
-    public String getUrlDoProduto() {
-        return urlDoProduto;
-    }
-
-    public void setUrlDoProduto(String urlDoProduto) {
-        this.urlDoProduto = urlDoProduto;
-    }
-
-    public String getUrlImagem() {
-        return urlImagem;
-    }
-
-    public void setUrlImagem(String urlImagem) {
-        this.urlImagem = urlImagem;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public Long getId() {
+        return id;
+    }
+
+    public String getNomeProduto() {
+        return nomeProduto;
     }
 
     public StatusPedido getStatus() {
         return status;
     }
 
-    public void setStatus(StatusPedido status) {
-        this.status = status;
+    public String getUrlDoProduto() {
+        return urlDoProduto;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public String getUrlImagem() {
+        return urlImagem;
     }
 
     public User getUser() {
         return user;
     }
 
-    public Long getId() {
-        return id;
+    public BigDecimal getValorNegociado() {
+        return valorNegociado;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDataDaEntrega(LocalDate dataDaEntrega) {
+        this.dataDaEntrega = dataDaEntrega;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
+
+    public void setStatus(StatusPedido status) {
+        this.status = status;
+    }
+
+    public void setUrlDoProduto(String urlDoProduto) {
+        this.urlDoProduto = urlDoProduto;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setValorNegociado(BigDecimal valorNegociado) {
+        this.valorNegociado = valorNegociado;
     }
 }
