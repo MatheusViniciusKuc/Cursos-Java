@@ -29,20 +29,6 @@ public class Pedido {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public Pedido() {
-
-    }
-
-    public Pedido(String nomeProduto, BigDecimal valorNegociado, LocalDate dataDaEntrega, String urlDoProduto,
-            String urlImagem, String descricao) {
-        this.nomeProduto = nomeProduto;
-        this.valorNegociado = valorNegociado;
-        this.dataDaEntrega = dataDaEntrega;
-        this.urlDoProduto = urlDoProduto;
-        this.urlImagem = urlImagem;
-        this.descricao = descricao;
-    }
-
     public String getNomeProduto() {
         return nomeProduto;
     }

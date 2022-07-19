@@ -24,15 +24,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
 
-    public User(String username, String password, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-    }
-
-    public User() {
-    }
-
     public String getUsername() {
         return username;
     }
