@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bsoft.api.domain.model.Cliente;
 import br.com.bsoft.api.domain.repository.ClienteRepository;
+import br.com.bsoft.api.domain.service.CatalogoClienteService;
 
 @RestController
 @RequestMapping("/clientes")
@@ -26,6 +27,8 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private CatalogoClienteService catalogoClienteService;
 
     @GetMapping
     public List<Cliente> listar() {
@@ -35,8 +38,7 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
-        clienteRepository.save(cliente);
-        return cliente;
+        return catalogoClienteService.salvar(cliente);
     }
 
     @GetMapping("/{clienteID}")
@@ -46,12 +48,12 @@ public class ClienteController {
     }
 
     @PutMapping("/{clienteID}")
-    public ResponseEntity<Cliente> atualizar(@Valid @PathVariable Long clienteID, @RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteID, @Valid @RequestBody Cliente cliente) {
         if (!clienteRepository.existsById(clienteID)) {
             return ResponseEntity.notFound().build();
         }
         cliente.setId(clienteID);
-        cliente = clienteRepository.save(cliente);
+        cliente = catalogoClienteService.salvar(cliente);
         return ResponseEntity.ok(cliente);
     }
 
@@ -60,7 +62,7 @@ public class ClienteController {
         if (!clienteRepository.existsById(clienteID)) {
             return ResponseEntity.notFound().build();
         }
-        clienteRepository.deleteById(clienteID);
+        catalogoClienteService.excluir(clienteID);
         return ResponseEntity.noContent().build();
 
     }
