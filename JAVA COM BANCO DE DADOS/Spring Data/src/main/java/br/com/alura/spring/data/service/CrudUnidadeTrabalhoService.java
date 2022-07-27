@@ -1,5 +1,6 @@
 package br.com.alura.spring.data.service;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.springframework.stereotype.Service;
@@ -8,92 +9,63 @@ import br.com.alura.spring.data.orm.UnidadeTrabalho;
 import br.com.alura.spring.data.repository.UnidadeTrabalhoRepository;
 
 @Service
-public class CrudUnidadeTrabalhoService {
+public class CrudUnidadeTrabalhoService extends CrudService {
 
-	private Boolean system = true;
 	private final UnidadeTrabalhoRepository unidadeTrabalhoRepository;
-	
+
 	public CrudUnidadeTrabalhoService(UnidadeTrabalhoRepository unidadeTrabalhoRepository) {
 		this.unidadeTrabalhoRepository = unidadeTrabalhoRepository;
 	}
-	
-	public void inicial(Scanner scanner) {
-		while(system) {
-			System.out.println("Qual acao de unidade deseja executar");
-			System.out.println("0 - Sair");
-			System.out.println("1 - Salvar");
-			System.out.println("2 - Atualizar");
-			System.out.println("3 - Visualizar");
-			System.out.println("4 - Deletar");
-			
-			int action = scanner.nextInt();
-			
-			switch (action) {
-			case 1:
-				salvar(scanner);
-				break;
-			case 2:
-				atualizar(scanner);
-				break;
-			case 3:
-				visualizar();
-				break;
-			case 4:
-				deletar(scanner);
-				break;
-			default:
-				system = false;
-				break;
-			}
-			
-		}
-		
-	}
-	
-	private void salvar(Scanner scanner) {
+
+	protected void salvar(Scanner scanner) {
 		System.out.println("Digite o nome da unidade");
-        String nome = scanner.next();
+		String nome = scanner.next();
 
-        System.out.println("Digite o endereco");
-        String endereco = scanner.next();
+		System.out.println("Digite o endereco");
+		String endereco = scanner.next();
 
-        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
-        unidadeTrabalho.setDescricao(nome);
-        unidadeTrabalho.setEndereco(endereco);
+		UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
+		unidadeTrabalho.setDescricao(nome);
+		unidadeTrabalho.setEndereco(endereco);
 
-        unidadeTrabalhoRepository.save(unidadeTrabalho);
-        System.out.println("Salvo");
+		unidadeTrabalhoRepository.save(unidadeTrabalho);
+		System.out.println("Salvo");
 	}
-	
-	private void atualizar(Scanner scanner) {
+
+	protected void atualizar(Scanner scanner) {
 		System.out.println("Digite o id");
-        Integer id = scanner.nextInt();
+		Integer id = scanner.nextInt();
 
-        System.out.println("Digite o nome da unidade");
-        String nome = scanner.next();
+		Optional<UnidadeTrabalho> unidadeTrabalhoOpt = unidadeTrabalhoRepository.findById(id);
+		if (unidadeTrabalhoOpt.isPresent()) {
+			System.out.println("Não encontrado esse id da unidade de Trabalho");
+			return;
+		}
 
-        System.out.println("Digite o endereco");
-        String endereco = scanner.next();
+		System.out.println("Digite o nome da unidade");
+		String nome = scanner.next();
 
-        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
-        unidadeTrabalho.setId(id);
-        unidadeTrabalho.setDescricao(nome);
-        unidadeTrabalho.setEndereco(endereco);
+		System.out.println("Digite o endereco");
+		String endereco = scanner.next();
 
-        unidadeTrabalhoRepository.save(unidadeTrabalho);
-        System.out.println("Alterado");
+		UnidadeTrabalho unidadeTrabalho = unidadeTrabalhoOpt.get();
+		unidadeTrabalho.setId(id);
+		unidadeTrabalho.setDescricao(nome);
+		unidadeTrabalho.setEndereco(endereco);
+
+		unidadeTrabalhoRepository.save(unidadeTrabalho);
+		System.out.println("Alterado");
 	}
-	
-	private void visualizar() {
-		Iterable<UnidadeTrabalho> unidades = unidadeTrabalhoRepository.findAll();
-		unidades.forEach(unidade -> System.out.println(unidade));
+
+	protected void visualizar(Scanner scanner) {
+		unidadeTrabalhoRepository.findAll().forEach(unidade -> System.out.println(unidade));
 	}
-	
-	private void deletar(Scanner scanner) {
+
+	protected void deletar(Scanner scanner) {
 		System.out.println("Id");
 		int id = scanner.nextInt();
 		unidadeTrabalhoRepository.deleteById(id);
 		System.out.println("Deletado");
 	}
-	
+
 }
